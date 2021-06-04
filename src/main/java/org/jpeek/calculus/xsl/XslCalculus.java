@@ -32,10 +32,12 @@ import org.cactoos.io.ResourceOf;
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.TextOf;
 import org.jpeek.calculus.Calculus;
+import org.jpeek.calculus.java.fix.Ccm;
 
 /**
- * Metrics xsl calculus. Use an xsl sheet to transform the input skeleton into
- * the xml containing the calculation.
+ * Metrics xsl calculus. Use an xsl sheet to transform the input skeleton into the xml containing
+ * the calculation.
+ *
  * @since 0.30.9
  */
 public final class XslCalculus implements Calculus {
@@ -43,7 +45,7 @@ public final class XslCalculus implements Calculus {
     @Override
     public XML node(final String metric, final Map<String, Object> params,
         final XML skeleton) throws IOException {
-        return new XSLDocument(
+        XML tempxsl = new XSLDocument(
             new TextOf(
                 new ResourceOf(
                     new FormattedText("org/jpeek/metrics/%s.xsl", metric)
@@ -52,6 +54,9 @@ public final class XslCalculus implements Calculus {
             Sources.DUMMY,
             params
         ).transform(skeleton);
+        if (metric.equals("CCM")) {
+            tempxsl = new Ccm(skeleton, tempxsl).getFixedResult();
+        }
+        return tempxsl;
     }
-
 }

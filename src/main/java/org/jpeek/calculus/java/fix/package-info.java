@@ -23,8 +23,9 @@
  */
 
 /**
- * JPeek java metric calculation fix.
+ * JPeek java metric CCM calculation fix.
  *
  * @since 1.0-SNAPSHOT
  */
-package org.jpeek.calculus.java;
+package org.jpeek.calculus.java.fix;
+
